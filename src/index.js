@@ -1,17 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import Routes from "./routes";
 
-import { Button } from "@material-ui/core";
 
 ReactDOM.render(
   <React.StrictMode>
-    <div>
 
-      <Button variant="outlined" color="primary">
-        Primary
-      </Button>
-    </div>
+<Routes />
+
   </React.StrictMode>,
   document.getElementById("root")
 );
