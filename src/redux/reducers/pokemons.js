@@ -14,9 +14,11 @@ const pokemons = (state = initialState, action) => {
       };
 
       case types.SET_MY_POKEMONS:
+      const findPokemon = state.myPokemons.some(item => item.id === action.payload.pokemon.id)  
+      const newPokemonsList = findPokemon ? state.myPokemons : [...state.myPokemons, action.payload.pokemon]
       return {
         ...state,
-        myPokemons: [...state.myPokemons, action.payload.pokemon],
+        myPokemons: newPokemonsList,
       };
 
       case types.REMOVE_MY_POKEMON:
