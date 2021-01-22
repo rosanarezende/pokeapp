@@ -1,23 +1,30 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import * as S from "./styles";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Box } from "@material-ui/core";
+import { Pagination } from "@material-ui/lab";
 
 function Catalogo() {
   const [pokemons, setPokemons] = useState([]);
+  const [page, setPage] = useState(0);
+  const itensPage = 25;
 
   const getPokemons = async () => {
-    const { results } = (
-      await axios.get("https://pokeapi.co/api/v2/pokemon")
+    const dataInAPI = (
+      await axios.get(
+        `https://pokeapi.co/api/v2/pokemon?offset=${page}&limit=${itensPage}`
+      )
     ).data;
-    const resultFormatted = results?.map(async (item, index) => {
+    const resultFormatted = dataInAPI.results?.map(async (item, index) => {
       const urlInfo = await axios.get(item.url);
       const { data } = await Promise.resolve(urlInfo);
+      // console.log(data.id)
       return {
         name: item.name,
-        id: index + 1,
+        id: data.id,
         image: data?.sprites.front_default,
         types: data?.types,
+        count: dataInAPI.count,
       };
     });
     (async () => {
@@ -28,7 +35,7 @@ function Catalogo() {
 
   useEffect(() => {
     getPokemons();
-  }, []);
+  }, [page]);
 
   return (
     <S.PageWrapper>
@@ -51,6 +58,13 @@ function Catalogo() {
           </Button>
         </S.PaperStyled>
       ))}
+      <Box display="flex" justifyContent="center" m={4}>
+        <Pagination
+          count={Math.ceil(pokemons[0]?.count / itensPage)}
+          page={page / itensPage + 1}
+          onChange={(e, value) => setPage(itensPage * (value - 1))}
+        />
+      </Box>
     </S.PageWrapper>
   );
 }
