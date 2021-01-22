@@ -1,40 +1,40 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+
 import * as S from "./styles";
 import { Typography, Button, Box } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 
+import { setClickedPokemon } from "../../redux/actions";
+
 function Catalogo() {
+  const dispatch = useDispatch();
   const [pokemons, setPokemons] = useState([]);
   const [page, setPage] = useState(0);
   const itensPage = 25;
 
-  const getPokemons = async () => {
-    const dataInAPI = (
-      await axios.get(
-        `https://pokeapi.co/api/v2/pokemon?offset=${page}&limit=${itensPage}`
-      )
-    ).data;
-    const resultFormatted = dataInAPI.results?.map(async (item, index) => {
-      const urlInfo = await axios.get(item.url);
-      const { data } = await Promise.resolve(urlInfo);
-      // console.log(data.id)
-      return {
-        name: item.name,
-        id: data.id,
-        image: data?.sprites.front_default,
-        types: data?.types,
-        count: dataInAPI.count,
-      };
-    });
+  useEffect(() => {
     (async () => {
+      const dataInAPI = (
+        await axios.get(
+          `https://pokeapi.co/api/v2/pokemon?offset=${page}&limit=${itensPage}`
+        )
+      ).data;
+      const resultFormatted = dataInAPI.results?.map(async (item, index) => {
+        const urlInfo = await axios.get(item.url);
+        const { data } = await Promise.resolve(urlInfo);
+        return {
+          name: item.name,
+          id: data.id,
+          image: data?.sprites.front_default,
+          types: data?.types,
+          count: dataInAPI.count,
+        };
+      });
       const result = await Promise.all(resultFormatted);
       setPokemons(result);
     })();
-  };
-
-  useEffect(() => {
-    getPokemons();
   }, [page]);
 
   return (
@@ -53,7 +53,11 @@ function Catalogo() {
               <strong>Type</strong>: {data.types[0].type.name.toUpperCase()}
             </p>
           </div>
-          <Button color="primary" variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => dispatch(setClickedPokemon(data.id))}
+          >
             Capturar
           </Button>
         </S.PaperStyled>
