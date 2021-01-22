@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Catalogo from "../pages/Catalogo";
+import MeusPokemons from "../pages/MeusPokemons";
 import Pokebola from "../pages/Pokebola";
 
 function Routes() {
@@ -17,6 +18,11 @@ function Routes() {
                 <Route
                     path="/pokebola"
                     component={Pokebola}
+                />
+
+                <Route
+                    path="/mypokemons"
+                    component={MeusPokemons}
                 />
 
             </Switch>

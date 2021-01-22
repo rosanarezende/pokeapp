@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { Paper } from "@material-ui/core"
 
 export const PageWrapper = styled.div`
-  margin: 2em;
+  margin: 12vh 2em;
 `
 
 export const PaperStyled = styled(Paper)`

@@ -13,3 +13,17 @@ export const setClickedPokemon = (pokemonNumber) => ({
     pokemonNumber,
   },
 });
+
+export const setMyPokemons = (pokemon) => ({
+  type: types.SET_MY_POKEMONS,
+  payload: {
+    pokemon,
+  },
+});
+
+export const removeMyPokemon = (pokemon) => ({
+  type: types.REMOVE_MY_POKEMON,
+  payload: {
+    pokemon,
+  },
+});
