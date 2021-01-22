@@ -3,7 +3,8 @@ import { Button, Box } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 
 const PokemonsList = (props) => {
-    const {pokemons, buttonFunction, page, setPage, itensPage} = props
+    const {pokemons, buttonFunction, buttonName, page, setPage, itensPage} = props
+    const count = buttonName === "CAPTURAR" ? (Math.ceil(pokemons[0]?.count / itensPage)) : Math.ceil(pokemons.length / itensPage)
     return (
         <S.PageWrapper>
             {pokemons?.map((data) => (
@@ -21,13 +22,13 @@ const PokemonsList = (props) => {
                         variant="contained"
                         onClick={() => buttonFunction(data)}
                     >
-                        Capturar
+                        {buttonName}
           </Button>
                 </S.PaperStyled>
             ))}
             <Box display="flex" justifyContent="center" m={4}>
                 <Pagination
-                    count={Math.ceil(pokemons[0]?.count / itensPage)}
+                    count={count}
                     page={page / itensPage + 1}
                     onChange={(e, value) => setPage(itensPage * (value - 1))}
                 />

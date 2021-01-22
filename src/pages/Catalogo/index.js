@@ -35,13 +35,20 @@ function Catalogo() {
   }, [page]);
 
   const addPokemon = (pokemon) => {
-    dispatch(setMyPokemons(pokemon))
-  }
+    dispatch(setMyPokemons(pokemon));
+  };
 
   return (
     <>
-    <Navbar/>
-    <PokemonsList pokemons={pokemons} buttonFunction={addPokemon} page={page} setPage={setPage} itensPage={itensPage} />
+      <Navbar />
+      <PokemonsList
+        pokemons={pokemons}
+        buttonFunction={addPokemon}
+        buttonName="CAPTURAR"
+        page={page}
+        setPage={setPage}
+        itensPage={itensPage}
+      />
     </>
   );
 }
