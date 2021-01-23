@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PokemonsList from "../../components/PokemonsList";
 import { getMyPokemons } from "../../redux/selectors";
@@ -6,7 +6,7 @@ import { removeMyPokemon } from "../../redux/actions";
 import Navbar from "../../components/Navbar";
 
 const MeusPokemons = () => {
-  const myPokemons = useSelector(getMyPokemons);
+  let myPokemons = useSelector(getMyPokemons);
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const itensPage = 25;
