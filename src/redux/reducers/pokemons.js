@@ -1,9 +1,22 @@
+import {defineState, getState} from 'redux-localstore';
 import * as types from "../types";
 
-const initialState = {
+const state = getState();
+const myPokemonsInState = state.pokemons.myPokemons
+
+const defaultState = {
+  myPokemons: myPokemonsInState ?? []
+}
+
+const initialState = defineState(defaultState)({
   pokemonClicked: undefined,
-  myPokemons: []
-};
+  myPokemons: myPokemonsInState ?? []
+})
+
+// const initialState = {
+//   pokemonClicked: undefined,
+//   myPokemons: []
+// };
 
 const pokemons = (state = initialState, action) => {
   switch (action.type) {
@@ -14,7 +27,7 @@ const pokemons = (state = initialState, action) => {
       };
 
       case types.SET_MY_POKEMONS:
-      const findPokemon = state.myPokemons.some(item => item.id === action.payload.pokemon.id)  
+      const findPokemon = state.myPokemons?.some(item => item.id === action.payload.pokemon.id)  
       const newPokemonsList = findPokemon ? state.myPokemons : [...state.myPokemons, action.payload.pokemon]
       return {
         ...state,
@@ -22,7 +35,7 @@ const pokemons = (state = initialState, action) => {
       };
 
       case types.REMOVE_MY_POKEMON:
-      const newPokemons = state.myPokemons.filter(item => item.id !== action.payload.pokemon.id)
+      const newPokemons = state.myPokemons?.filter(item => item.id !== action.payload.pokemon.id)
       return {
         ...state,
         myPokemons: newPokemons
